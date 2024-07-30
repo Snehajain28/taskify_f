@@ -29,13 +29,14 @@ const Signin = () => {
 
     const handleSubmit = async (e) => {
         setLoading(true);
+    
         e.preventDefault();
         if (passwordStrength(formData.password).value !== "Strong") {
-            toast("Weak Password");
+            toast.error("Weak Password");
             setLoading(false);
             return;
         }
-
+        
         await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/v1/signin`, { name: formData.name, email: formData.email, password: formData.password, username: formData.username })
         .then((response) => {
                 dispatch({

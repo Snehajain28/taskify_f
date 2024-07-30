@@ -31,11 +31,14 @@ function App() {
 
   if (user === null) {
     return (
-      <Routes >
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signin />} />
-        <Route path='*' element={<Login />} />
-      </Routes >
+      <div>
+        <Toaster />
+        <Routes >
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signin />} />
+          <Route path='*' element={<Login />} />
+        </Routes >
+      </div>
     )
   }
 

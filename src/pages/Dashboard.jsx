@@ -7,18 +7,10 @@ import TaskCard from "../components/TaskCard";
 
 const Dashboard = () => {
 
-  const [ideas, setIdeas] = useState([]);
-  const [{ user, abc }, dispatch] = useStateValues()
+  const [{ user, tasks }, dispatch] = useStateValues()
   const [loading, setLoading] = useState(true);
-
-  if (abc) { console.log(dispatch) }
-  // const handleDelete = (id) => {
-
-  //   const ideasCopy = [...ideas];
-  //   const ideasCopyUpdated = ideasCopy.filter(idea => idea.id !== id);
-  //   console.log(id)
-  //   setIdeas(ideasCopyUpdated);
-  // }
+ 
+ 
 
   useEffect(() => {
     async function fetchData() {
@@ -26,16 +18,19 @@ const Dashboard = () => {
       if (user === null) {
         return;
       }
-
       await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/v1/getTodo`, { id: user?._id })
         .then((response) => {
-          setIdeas(response.data.data);
+         dispatch({
+          type:"SET_TASKS",
+          tasks:response.data.data
+         })
+      
           setLoading(false);
-        }).catch((e) => {console.log("err")})
+        }).catch((e) => { console.log("err") })
 
     }
     fetchData();
-  }, [user]);
+  }, [dispatch,user]);
 
   if (loading || user === null) {
     return (
@@ -46,19 +41,21 @@ const Dashboard = () => {
   return (
     <div className="relative w-full">
       <div className="flex flex-col items-center px-4 text-gray-700">
-        <h1 className="text-center text-2xl font-bold uppercase mb-10">Your Tasks</h1>
+        <h1 className="text-center text-2xl font-bold uppercase  lg:mb-10 ">Your Tasks</h1>
         {
-          ideas?.length === 0 ?
+          tasks?.length === 0 ?
             (<div className="flex flex-col items-center ">
               <p className="font-semibold">No Todos here ! </p>
               <Link to={'/add-task'} className="text-blue-500">Create New</Link>
             </div>) :
-            (<div className="w-[90vw] justify-center flex flex-wrap gap-7">
+            (<div className=" mt-[1rem] h-[62vh] w-full  overflow-y-auto flex flex-wrap justify-center gap-4">
               {
-                ideas.map((idea , i) => (
+                tasks.map((idea, i) => (
                   <TaskCard key={i} task={idea} />
                 ))
               }
+              <hr />
+              <h1 className="text-center text-2xl font-bold uppercase  lg:mb-10 ">Completed</h1>
             </div>)
         }
         <Link to={'/add-task'} className="h-[3rem] text-white right-3 w-[3rem] flex justify-center items-center absolute bottom-4  rounded-full bg-blue-500">

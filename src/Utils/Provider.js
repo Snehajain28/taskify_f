@@ -6,6 +6,7 @@ const initialState = {
   user: null,
   profile: false,
   hamburger: false,
+  tasks:[],
 }
 
 
@@ -17,6 +18,11 @@ const reducers = (state, action) => {
         ...state,
         user: action.user,
       };
+      case "SET_TASKS":
+        return {
+          ...state,
+          tasks: action.tasks,
+        };
     case "SET_PROFILE":
       return {
         ...state,

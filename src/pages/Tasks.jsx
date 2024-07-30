@@ -25,22 +25,11 @@ const TABS = [
 const Tasks = () => {
   const params = useParams();
   const [selected, setSelected] = useState(0);
-  const [{ user, abc }, dispatch] = useStateValues()
+  const [{  abc , tasks }, dispatch] = useStateValues()
   const [loading, setLoading] = useState(true);
   const status = params?.status || "";
-  const [tasks, setTasks] = useState([]);
+ 
   if (abc) { console.log(dispatch) }
-
-
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const response = await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/v1/getTodo`, { id: user?._id })
-      setTasks(response.data.data);
-      setLoading(false);
-    }
-    fetchData();
-  }, [user]);
 
 
   if (loading) {
