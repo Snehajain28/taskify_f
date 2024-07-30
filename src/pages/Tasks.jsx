@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaList } from "react-icons/fa";
 import { MdGridView } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
@@ -8,7 +8,6 @@ import BoardView from "../components/BoardVeiw";
 // import { tasks } from "../assests/data";
 import Table from "../components/task/Table";
 import { useStateValues } from "../Utils/Provider";
-import axios from "axios";
 
 
 const TABS = [
@@ -26,15 +25,11 @@ const Tasks = () => {
   const params = useParams();
   const [selected, setSelected] = useState(0);
   const [{  abc , tasks }, dispatch] = useStateValues()
-  const [loading, setLoading] = useState(true);
   const status = params?.status || "";
  
   if (abc) { console.log(dispatch) }
 
 
-  if (loading) {
-    return (<div className="w-[100vw] h-[90vh] flex justify-center items-center">Loading...</div>)
-  }
 
   return (
     <div className=' mx-auto h-[80vh] overflow-y-scroll mx-auto'>
